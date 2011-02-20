@@ -2,9 +2,9 @@ class PotsController < ApplicationController
   def check_pot
     @pot = Pot.find_by_pot_code(params[:pot_code])    
     if @pot
-      render :text => {cups_left: @pot.cups_left}    
+      render :text => {cups_left: @pot.cups_left}.to_json
     else
-      render :text => 'POT_NOT_FOUND'
+      render :text => 'POT_NOT_FOUND'.to_json
     end
   end
   
@@ -12,14 +12,14 @@ class PotsController < ApplicationController
     @pot = Pot.find_by_pot_code(params[:pot_code])
     if @pot
       if @pot.cups_left == 0
-        render :text => 'NEEDS_REFILL'
+        render :text => 'NEEDS_REFILL'.to_json
       else
         @pot.cups_left = @pot.cups_left - 1
         @pot.save
-        render :text => {cups_left: @pot.cups_left}
+        render :text => {cups_left: @pot.cups_left}.to_json
       end
     else
-      render :text => 'POT_NOT_FOUND'
+      render :text => 'POT_NOT_FOUND'.to_json
     end
   end
   
@@ -28,9 +28,9 @@ class PotsController < ApplicationController
     if @pot
       @pot.cups_left = @pot.capacity
       @pot.save
-      render :text => 'THANKS'
+      render :text => {cups_left: @pot.cups_left}.to_json
     else
-      render :text => 'POT_NOT_FOUND'
+      render :text => 'POT_NOT_FOUND'.to_json
     end
   end
       
